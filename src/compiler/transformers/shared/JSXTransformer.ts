@@ -88,7 +88,8 @@ export function JSXTransformer(): ITransformer {
     commonVisitors: props => {
       if (props.module.props.extension === '.ts') return;
       const defaultFactory = 'React.createElement';
-      const jsxFactory = props.ctx ? props.ctx.tsConfig.compilerOptions.jsxFactory || defaultFactory : defaultFactory;
+      const jsxFactory = (props.ctx && props.ctx.tsConfig.compilerOptions.jsxFactory) || defaultFactory;
+      // const jsxFactory = props.ctx ? props.ctx.tsConfig.compilerOptions.jsxFactory || defaultFactory : defaultFactory;
       // we don't need that for normal TypeScript files
       return {
         onEachNode: (visit: IVisit): IVisitorMod => {
