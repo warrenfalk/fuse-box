@@ -257,7 +257,7 @@ function addExtraDepednencies(props: { bundleContext: IBundleContext; ctx: Conte
   }
 }
 
-export function ModuleResolver(ctx: Context, entryFiles: Array<string>): IModuleResolver {
+export async function ModuleResolver(ctx: Context, entryFiles: Array<string>): Promise<IModuleResolver> {
   const entries = [];
   const bundleContext = createBundleContext(ctx);
   ctx.bundleContext = bundleContext;
