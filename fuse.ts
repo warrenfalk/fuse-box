@@ -27,6 +27,7 @@ task('transpile', async c => {
   await tsc(
     {
       declaration: true,
+      sourceMap: true,
       module: 'CommonJS',
       skipLibCheck: true,
       target: 'ES2017',
