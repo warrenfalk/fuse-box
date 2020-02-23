@@ -117,6 +117,7 @@
   },
   "scripts": {
     "alpha": "ts-node -T fuse publish-alpha",
+    "build": "ts-node -T fuse build-warren",
     "changelog": "run-s changelog:generate changelog:format",
     "changelog:format": "prettier --write CHANGELOG.md",
     "changelog:generate": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",

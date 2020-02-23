@@ -112,6 +112,15 @@ task('dist', async ctx => {
   await exec('bump-version');
   await exec('fix-env');
 });
+task('build-warren', async ctx => {
+  ctx.npmTag = 'warren';
+  await exec('clean');
+  await exec('transpile');
+  await exec('copy-modules');
+  await exec('copy-various');
+  await exec('bump-version');
+  await exec('fix-env');
+})
 
 task('document', async ctx => {
   const TypeDoc = require('typedoc');
