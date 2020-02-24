@@ -32,6 +32,7 @@ export interface IResolverProps {
   // user string
   target: string;
   typescriptPaths?: ITypescriptPathsConfig;
+  tsTargetMaps?: Map<string, string>;
   alias?: {
     [key: string]: string;
   };

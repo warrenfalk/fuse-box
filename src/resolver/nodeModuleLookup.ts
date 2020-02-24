@@ -145,11 +145,10 @@ export function nodeModuleLookup(props: IResolverProps, parsed: IModuleParsed): 
   }
 
   const isBrowser = props.buildTarget === 'browser';
-  // extract entry point
 
   // extract target if required
   if (parsed.target) {
-    const parsedLookup = fileLookup({ fileDir: folder, target: parsed.target });
+    const parsedLookup = fileLookup({ fileDir: folder, target: parsed.target, targetMap: props.tsTargetMaps });
     if (!parsedLookup) {
       return { error: `Failed to resolve ${props.target} in ${parsed.name}` };
     }
@@ -167,9 +166,10 @@ export function nodeModuleLookup(props: IResolverProps, parsed: IModuleParsed): 
     result.isEntry = false;
     result.targetFuseBoxPath = makeFuseBoxPath(folder, result.targetAbsPath);
   } else {
+    // extract entry point
     const entryFile = getFolderEntryPointFromPackageJSON({ isBrowserBuild: isBrowser, json: json });
 
-    const entryLookup = fileLookup({ fileDir: folder, target: entryFile });
+    const entryLookup = fileLookup({ fileDir: folder, target: entryFile, targetMap: props.tsTargetMaps });
 
     if (!entryLookup.fileExists) {
       return {

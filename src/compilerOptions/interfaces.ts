@@ -18,6 +18,7 @@ export interface ICompilerOptions {
   paths?: ITypeScriptPaths;
   processEnv?: Record<string, string>;
   tsConfig?: string;
+  tsReferences?: ITsConfigReference[];
   jsParser?: { nodeModules?: ICompilerParserType; project?: ICompilerParserType };
 }
 
@@ -50,11 +51,16 @@ export interface IRawCompilerOptions {
   target?: IJavaScriptTarget;
 }
 
+export interface ITsConfigReference {
+  path?: string
+}
+
 export interface IRawTypescriptConfig {
   error?: any;
 
   config?: {
     compilerOptions?: IRawCompilerOptions;
     extends?: string;
+    references?: ITsConfigReference[];
   };
 }

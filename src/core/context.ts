@@ -1,8 +1,8 @@
 import * as path from 'path';
-import { CustomTransformers } from 'typescript';
+import { CustomTransformers, ParseConfigHost, sys } from 'typescript';
 import { ITransformer } from '../compiler/interfaces/ITransformer';
 import { ImportType } from '../compiler/interfaces/ImportType';
-import { createCompilerOptions } from '../compilerOptions/compilerOptions';
+import { createCompilerOptions, recurseTsReferences } from '../compilerOptions/compilerOptions';
 import { ICompilerOptions } from '../compilerOptions/interfaces';
 import { EnvironmentType } from '../config/EnvironmentType';
 import { IConfig, IPublicConfig } from '../config/IConfig';
@@ -57,6 +57,10 @@ export interface Context {
   systemDependencies?: Record<string, number>;
   taskManager?: ContextTaskManager;
   tsConfigAtPaths?: Array<TsConfigAtPath>;
+  // These are maps of output files (e.g. dist/foo.js) to their source files (e.g. src/foo.ts)
+  // These are built from recursing the "reference"s in tsconfig.json files
+  // see https://www.typescriptlang.org/docs/handbook/project-references.html
+  tsTargetMaps?: Map<string, string>;
   userTransformers?: Array<ITransformer>;
   weakReferences?: WeakModuleReferences;
   webIndex?: IWebIndexInterface;
@@ -67,6 +71,7 @@ export interface Context {
   sendPageReload?: (reason?: string) => void;
   setLinkedReference?: (asbPath: string, module: IModule) => void;
   setPersistantModuleDependency?: (module: IModule, dependencyName: string) => void;
+  getTsParseConfigHost: () => ParseConfigHost;
 }
 
 export interface ICreateContextProps {
@@ -77,6 +82,7 @@ export interface ICreateContextProps {
 }
 
 export function createContext(props: ICreateContextProps): Context {
+  let tsParseConfigHost: ParseConfigHost | undefined;
   const self: Context = {
     linkedReferences: {},
     systemDependencies: {},
@@ -119,6 +125,17 @@ export function createContext(props: ICreateContextProps): Context {
       });
       self.systemDependencies[dependencyName] = dependencyObject.id;
     },
+    getTsParseConfigHost: () => {
+      if (!tsParseConfigHost) {
+        tsParseConfigHost = {
+          useCaseSensitiveFileNames: true,
+          readDirectory: sys.readDirectory,
+          readFile: sys.readFile,
+          fileExists: sys.fileExists,
+        }
+      }
+      return tsParseConfigHost;
+    }
   };
 
   const runProps: IRunProps = props.runProps || {};
@@ -154,6 +171,9 @@ export function createContext(props: ICreateContextProps): Context {
   self.taskManager = createContextTaskManager(self);
 
   self.compilerOptions = createCompilerOptions(self);
+
+  // calculate ts input maps from ts references
+  self.tsTargetMaps = recurseTsReferences(self);
 
   // custom transformers
   self.userTransformers = [];

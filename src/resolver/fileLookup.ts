@@ -13,6 +13,7 @@ export interface ILookupProps {
   javascriptFirst?: boolean;
   target: string;
   typescriptFirst?: boolean;
+  targetMap?: Map<string, string>;
 }
 
 export interface TsConfigAtPath {
@@ -42,23 +43,51 @@ const TS_EXTENSIONS = ['.ts', '.tsx'];
 const TS_EXTENSIONS_FIRST = [...TS_EXTENSIONS, ...JS_EXTENSIONS];
 const JS_EXTENSIONS_FIRST = [...JS_EXTENSIONS, ...TS_EXTENSIONS];
 
-function tryIndexes(target: string, indexes: Array<string>) {
+function tryDirect(target: string, find: (path: string) => string) {
+  return find(target);
+}
+
+function tryIndexes(target: string, indexes: Array<string>, find: (path: string) => string | undefined) {
   for (const i in indexes) {
     const indexFile = indexes[i];
     const resolved = path.join(target, indexFile);
-    if (fileExists(resolved)) {
-      return resolved;
+    const found = find(resolved);
+    if (found) {
+      return found;
     }
   }
 }
 
-function tryExtensions(target: string, extensions: Array<string>) {
+function tryExtensions(target: string, extensions: Array<string>, find: (path: string) => string | undefined) {
   for (const i in extensions) {
     const resolved = `${target}${extensions[i]}`;
-    if (fileExists(resolved)) {
-      return resolved;
+    const found = find(resolved);
+    if (found) {
+      return found;
     }
   }
+}
+
+function findMappedFile(file: string, map?: Map<string, string>): string | undefined {
+  const mapped = map?.get(file);
+  if (mapped && mapped !== file) {
+    return findMappedFile(mapped, undefined);
+  }
+  try {
+    const stat = fs.lstatSync(file);
+    return stat.isFile() ? file : undefined;
+  }
+  catch {
+    return undefined;
+  }
+}
+
+function findMappedPath(path: string, map?: Map<string, string>): string | undefined {
+  const mapped = map?.get(path);
+  if (mapped && mapped !== path) {
+    return findMappedPath(mapped, undefined);
+  }
+  return fileExists(path) ? path : undefined;
 }
 
 export function fileLookup(props: ILookupProps): ILookupResult {
@@ -68,15 +97,16 @@ export function fileLookup(props: ILookupProps): ILookupResult {
   let resolved = path.join(props.filePath ? path.dirname(props.filePath) : props.fileDir, props.target);
   const extension = path.extname(resolved);
 
-  if (extension && fileExists(resolved)) {
-    const stat = fs.lstatSync(resolved);
+  const map = props.targetMap;
+  const findFile = file => findMappedFile(file, map);
+  const findPath = path => findMappedPath(path, map);
 
-    if (stat.isFile()) {
-      return {
-        absPath: resolved,
-        extension: path.extname(resolved),
-        fileExists: fileExists(resolved),
-      };
+  const direct = extension && tryDirect(resolved, findFile)
+  if (direct) {
+    return {
+      absPath: direct,
+      extension: extension,
+      fileExists: true,
     }
   }
 
@@ -88,7 +118,7 @@ export function fileLookup(props: ILookupProps): ILookupResult {
   if (props.typescriptFirst) {
     fileExtensions = TS_EXTENSIONS_FIRST;
   }
-  const targetFile = tryExtensions(resolved, fileExtensions);
+  const targetFile = tryExtensions(resolved, fileExtensions, findPath);
   if (targetFile) {
     return {
       absPath: targetFile,
@@ -152,7 +182,7 @@ export function fileLookup(props: ILookupProps): ILookupResult {
       if (props.typescriptFirst) {
         indexes = TS_INDEXES_FIRST;
       }
-      const directoryIndex = tryIndexes(resolved, indexes);
+      const directoryIndex = tryIndexes(resolved, indexes, findPath);
       if (directoryIndex) {
         return {
           absPath: directoryIndex,
@@ -167,7 +197,7 @@ export function fileLookup(props: ILookupProps): ILookupResult {
   // as a last resort, we should try ".json" which is a very rare case
   // that's why it has the lowest priority here
   if (!isDirectory) {
-    const targetFile = tryExtensions(resolved, ['.json']);
+    const targetFile = tryExtensions(resolved, ['.json'], findPath);
     if (targetFile) {
       return {
         absPath: targetFile,

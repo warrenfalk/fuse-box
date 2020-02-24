@@ -104,6 +104,7 @@ export function resolve(props: {
     packageMeta: parent.pkg && parent.pkg.meta,
     target: props.statement,
     typescriptPaths: getModuleResolutionPaths({ module: parent }),
+    tsTargetMaps: ctx.tsTargetMaps,
   });
 
   if (!resolved || (resolved && resolved.error)) return { errored: true };
