@@ -1,9 +1,10 @@
 # Typescript Project References
 
 ```typescript
-// fuse will only allow the following if I have already built my-ts-lib
-// but both `tsc --build` and vscode are capable of translating this to
-// its corresponding input (dist/
+// fuse-box 
+// fuse-box will only allow the following if I have already built my-ts-lib
+// but both `tsc --build` and vscode are capable of translating this to its
+// corresponding input (my-ts-lib/src/deepfile.ts)
 import {deeply} from "my-ts-lib/dist/deepfile";
 ```
 
@@ -24,5 +25,6 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQ5MDY3Mzk4MSwtMTg2OTQ5NTE2MV19
+eyJoaXN0b3J5IjpbLTE0NTE1Mjk4NTUsLTE4Njk0OTUxNjFdfQ
+==
 -->
