@@ -13,6 +13,8 @@ import {deeply} from "my-ts-lib/dist/deepfile";
 // work correctly with both "tsc --build" and in vscode.
 ```
 
+This makes the **fuse-box + monorepo + Typescript** setup very frustrating to work with.
+
 If I have a typescript project, `my-ts-lib`, that I want to include from my fuse-box app, `my-fusebox-app`.  From `my-fusebox-app` I can `import {thingy} from "my-ts-lib"` but it will resolve to `"dist/index.js"` because `my-ts-lib/package.json` specifies that in its `"main"` field.
 
 It looks like fuse-box will read a `"ts:main"` or a `"local:main"` from a `package.json` to allow you to work around this.  However, this only works for entry points.  For example, `import {deeply} from "my-ts-lib/dist/deepfile"` is not solved by this solution and will not work.
@@ -30,5 +32,5 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzU4OTAwNDQsLTE4Njk0OTUxNjFdfQ==
+eyJoaXN0b3J5IjpbMTU1MzYyNzcxNSwtMTg2OTQ5NTE2MV19
 -->
