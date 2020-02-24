@@ -15,7 +15,9 @@ import {deeply} from "my-ts-lib/dist/deepfile";
 
 This can lead to a lot of frustrating trying to get **fuse-box** + **monorepo** + **TypesSript** setup very frustrating to work with.
 
-Although fuse-box will read a `"ts:main"` or a `"local:main"` from a `package.json` to allow you to work around this, it only works for entry points, and has issues with t.  However, this only works for entry points.  For example, `import {deeply} from "my-ts-lib/dist/deepfile"` is not solved by this solution and will not work.
+Although fuse-box will read a `"ts:main"` or a `"local:main"` from a `package.json` to allow you to work around this, it only works for entry points, and has issues with transitive dependencies.
+
+This is despite being perfectly legitimate TypeScript since version 3, supported by both "ts
 
 This is despite being perfectly legitimate TypeScript.  I.e. TypeScript has been capable of this using `tsc --build` since version 3 using `"references"` in `tsconfig.json`.  This is called "Project References"
 
@@ -30,5 +32,6 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY4NjM4MTQwNywtMTg2OTQ5NTE2MV19
+eyJoaXN0b3J5IjpbLTE4MzQyNDY3NzAsLTE4Njk0OTUxNjFdfQ
+==
 -->
