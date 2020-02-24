@@ -1,5 +1,10 @@
 # Typescript Project References
 
+```typescript
+// fuse will only allow the followi
+import {deeply} from "my-ts-lib/dist/deepfile";
+```
+
 If I have a typescript project, `my-ts-lib`, that I want to include from my fuse-box app, `my-fusebox-app`.  From `my-fusebox-app` I can `import {thing} from "my-ts-lib"` but it will resolve to `"dist/index.js"` because `my-ts-lib/package.json` specifies that in its `"main"` field.
 
 It looks like fuse-box will read a `"ts:main"` or a `"local:main"` from a `package.json` to allow you to work around this.  However, this only works for entry points.  For example, `import {deeply} from "my-ts-lib/dist/deepfile"` is not solved by this solution and will not work.
@@ -17,5 +22,5 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4Njk0OTUxNjFdfQ==
+eyJoaXN0b3J5IjpbOTQzMTI5OTkyLC0xODY5NDk1MTYxXX0=
 -->
