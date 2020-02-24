@@ -2,14 +2,15 @@
 
 ```typescript
 // if "my-ts-lib" is a local typescript package
-// fuse-box will say the fol
+// even though "my-ts-lib/src/fuse-box will say the following doesn't exist unless I have built "my-ts-lib"
+import {thingy} from "my-ts-lib";
 // fuse-box will only allow the following if I have already built my-ts-lib
 // but both `tsc --build` and vscode are capable of translating this to its
 // corresponding input (my-ts-lib/src/deepfile.ts)
 import {deeply} from "my-ts-lib/dist/deepfile";
 ```
 
-If I have a typescript project, `my-ts-lib`, that I want to include from my fuse-box app, `my-fusebox-app`.  From `my-fusebox-app` I can `import {thing} from "my-ts-lib"` but it will resolve to `"dist/index.js"` because `my-ts-lib/package.json` specifies that in its `"main"` field.
+If I have a typescript project, `my-ts-lib`, that I want to include from my fuse-box app, `my-fusebox-app`.  From `my-fusebox-app` I can `import {thingy} from "my-ts-lib"` but it will resolve to `"dist/index.js"` because `my-ts-lib/package.json` specifies that in its `"main"` field.
 
 It looks like fuse-box will read a `"ts:main"` or a `"local:main"` from a `package.json` to allow you to work around this.  However, this only works for entry points.  For example, `import {deeply} from "my-ts-lib/dist/deepfile"` is not solved by this solution and will not work.
 
@@ -26,5 +27,6 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU1NTEyNzA2OCwtMTg2OTQ5NTE2MV19
+eyJoaXN0b3J5IjpbLTIxMTk5NzY0MzksLTE4Njk0OTUxNjFdfQ
+==
 -->
