@@ -25,11 +25,11 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 
 Note: this is not the same thing as `tsconfig.json` `"paths"` which are not capable of handling this correctly.
 
-I have implemented support for `"references"` within fuse-box.  Note that for `tsconfig.json` files that do not contain `"references"` behavior sho
+I have implemented support for `"references"` within fuse-box.  Note that for `tsconfig.json` files that do not contain `"references"` behavior should not change.
 
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQwNDM3MTkzMSw1Njg5MDkwMzksLTE4Nj
+eyJoaXN0b3J5IjpbLTY0NzQ3NzM5Myw1Njg5MDkwMzksLTE4Nj
 k0OTUxNjFdfQ==
 -->
