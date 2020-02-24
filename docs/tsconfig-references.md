@@ -2,13 +2,14 @@
 
 Summary:
 ```typescript
-// the following can sorta work in fuse-box as long as I set "ts:main" in my-ts-lib/package.json
+// the following can sort of be made to work in fuse-box
+// using "ts:main" in my-ts-lib/package.json
 import {thingy} from "my-ts-lib";
 
-// does not work in fuse-box at all
+// but the following does not work at all in fuse-box
 import {deeply} from "my-ts-lib/dist/deepfile";
 
-// but both of the above are legitimate typescript and
+// However, both of the above are legitimate typescript and
 // work correctly with both "tsc --build" and in vscode.
 ```
 
@@ -29,5 +30,5 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzk2NDI1NTEyLC0xODY5NDk1MTYxXX0=
+eyJoaXN0b3J5IjpbMzU4OTAwNDQsLTE4Njk0OTUxNjFdfQ==
 -->
