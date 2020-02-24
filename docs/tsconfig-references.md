@@ -1,7 +1,8 @@
 # Typescript Project References
 
 ```typescript
-// fuse-box 
+// if "my-ts-lib" is a local typescript package
+// fuse-box will say the fol
 // fuse-box will only allow the following if I have already built my-ts-lib
 // but both `tsc --build` and vscode are capable of translating this to its
 // corresponding input (my-ts-lib/src/deepfile.ts)
@@ -25,6 +26,5 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0NTE1Mjk4NTUsLTE4Njk0OTUxNjFdfQ
-==
+eyJoaXN0b3J5IjpbMTU1NTEyNzA2OCwtMTg2OTQ5NTE2MV19
 -->
