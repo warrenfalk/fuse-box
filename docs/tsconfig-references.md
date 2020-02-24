@@ -1,13 +1,12 @@
 # Typescript Project References
 
 ```typescript
-// if "my-ts-lib" is a local typescript package
-// even though "my-ts-lib/src/fuse-box will say the following doesn't exist unless I have built "my-ts-lib"
+// can sorta work in fuse-box if I set "ts:main" in my-ts-lib/package.json
 import {thingy} from "my-ts-lib";
-// fuse-box will only allow the following if I have already built my-ts-lib
-// but both `tsc --build` and vscode are capable of translating this to its
-// corresponding input (my-ts-lib/src/deepfile.ts)
+// does not work in fuse-box at all
 import {deeply} from "my-ts-lib/dist/deepfile";
+
+// but both of these work correctly with both "tsc --build" and in vscode.
 ```
 
 If I have a typescript project, `my-ts-lib`, that I want to include from my fuse-box app, `my-fusebox-app`.  From `my-fusebox-app` I can `import {thingy} from "my-ts-lib"` but it will resolve to `"dist/index.js"` because `my-ts-lib/package.json` specifies that in its `"main"` field.
@@ -27,6 +26,5 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMTk5NzY0MzksLTE4Njk0OTUxNjFdfQ
-==
+eyJoaXN0b3J5IjpbMTQ3ODQ1Mzg3LC0xODY5NDk1MTYxXX0=
 -->
