@@ -17,11 +17,9 @@ This can lead to a lot of frustrating trying to get **fuse-box** + **monorepo** 
 
 Although fuse-box will read a `"ts:main"` or a `"local:main"` from a `package.json` to allow you to work around this, it only works for entry points, and has issues with transitive dependencies.
 
-This is despite being perfectly legitimate TypeScript since version 3, supported by both "ts
+This is despite being perfectly legitimate TypeScript since version 3, supported by both `tsc --build` and Visual Studio Code via what are called "Project References".  See [https://www.typescriptlang.org/docs/handbook/project-references.html](https://www.typescriptlang.org/docs/handbook/project-references.html).
 
-This is despite being perfectly legitimate TypeScript.  I.e. TypeScript has been capable of this using `tsc --build` since version 3 using `"references"` in `tsconfig.json`.  This is called "Project References"
-
-See [https://www.typescriptlang.org/docs/handbook/project-references.html](https://www.typescriptlang.org/docs/handbook/project-references.html) for more information on what TypeScript Project References are.
+I am proposing that fuse-box should try to achieve parity with `tsc --build` and Visual Studio Code if at all possible.  If a package with the above imports can be built with `tsc --build` and Vis
 
 I propose that if `tsc --build` can compile a package, then we should try to make fuse-box capable of compiling that same package.  Furthermore since editors like Visual Studio Code also understand project references, implementing them would allow fuse-box to mirror the editor's behavior (e.g. if Visual Studio Code understands which source file is behind `my-ts-lib/dist/deepfile` then it would be great if fuse-box did, too, so I don't get surprised when it's time to build).
 
@@ -32,6 +30,6 @@ The way the project references work is that `tsconfig.json` files declare `"refe
 ___
 > Written with [StackEdit](https://stackedit.io/).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4MzQyNDY3NzAsLTE4Njk0OTUxNjFdfQ
+eyJoaXN0b3J5IjpbLTExMzYyNjUzMTksLTE4Njk0OTUxNjFdfQ
 ==
 -->
